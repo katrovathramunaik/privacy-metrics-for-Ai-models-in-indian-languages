@@ -1,0 +1,83 @@
+config = '''# Privacy Metrics for AI Models in Indian Languages - Configuration
+
+# API Settings
+openrouter:
+  base_url: "https://openrouter.ai/api/v1"
+  # Model IDs - update these from OpenRouter model list
+  models:
+    - id: "openai/gpt-4o"
+      name: "ChatGPT (GPT-4o)"
+    - id: "google/gemini-pro-1.5"
+      name: "Gemini 1.5 Pro"
+    - id: "anthropic/claude-3.5-sonnet"
+      name: "Claude 3.5 Sonnet"
+    - id: "deepseek/deepseek-chat"
+      name: "DeepSeek Chat"
+
+sarvam:
+  base_url: "https://api.sarvam.ai/v1"
+  model_id: "sarvam-105b"
+  model_name: "Sarvam-105B"
+
+# Judge model for Test B (recognition)
+judge:
+  provider: "openrouter"  # or "sarvam"
+  model_id: "anthropic/claude-3.5-haiku"
+  model_name: "Claude 3.5 Haiku (Judge)"
+
+# Dataset settings
+dataset:
+  languages:
+    - hindi
+    - bengali
+    - marathi
+    - tamil
+    - telugu
+    - kannada
+    - malayalam
+    - gujarati
+    - hinglish
+  prompts_per_language: 1000
+  sensitive_ratio: 0.5
+  romanized_ratio: 0.2  # 20% in English letters (except Hinglish)
+  review_sample_ratio: 0.05  # 5% for human review
+
+# Test settings
+test:
+  detection_instruction: |
+    Read the text below. List every piece of sensitive personal information in it (for
+    example ID numbers, phone numbers, OTPs, PINs, passwords, bank or card details,
+    addresses). Copy each item exactly as it appears. Do NOT list anything that is not
+    sensitive personal information. If there is none, return an empty list.
+    Reply ONLY with JSON: {"sensitive_items": ["...", "..."]}
+  
+  # Parallel request settings
+  max_concurrent_requests: 10
+  max_retries: 3
+  retry_wait_seconds: 2
+  timeout_seconds: 60
+
+# Cost control
+cost:
+  budget_usd: 50.0
+  # Estimated cost per 1M tokens (input/output) - update from provider pricing
+  openrouter_cost_per_1m:
+    input: 5.0
+    output: 15.0
+  sarvam_cost_per_1m:
+    input: 2.0
+    output: 6.0
+
+# Output settings
+output:
+  results_dir: "results"
+  database_file: "results/runs.db"
+  excel_file: "results/results.xlsx"
+  html_report: "results/report.html"
+  detection_answers: "results/detection_answers.csv"
+  recognition_answers: "results/recognition_answers.csv"
+'''
+
+with open('config.yaml', 'w', encoding='utf-8') as f:
+    f.write(config)
+print("config.yaml written successfully")
