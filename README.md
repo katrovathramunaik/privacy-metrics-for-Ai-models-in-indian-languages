@@ -10,9 +10,9 @@ This project evaluates 5 AI models on their ability to:
 
 ### Models Tested
 - **ChatGPT (GPT-4o)** via OpenRouter
-- **Gemini 1.5 Pro** via OpenRouter  
-- **Claude 3.5 Sonnet** via OpenRouter
-- **DeepSeek Chat** via OpenRouter
+- **Gemini 2.5 Flash** via OpenRouter  
+- **Claude 4.5 Sonnet** via OpenRouter
+- **DeepSeek v3.2** via OpenRouter
 - **Sarvam-105B** via Sarvam AI API
 
 ### Languages (9)
